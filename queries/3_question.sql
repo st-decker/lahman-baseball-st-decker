@@ -12,16 +12,17 @@
         * ...
 
     FACTS ::
-        * ...
+        * SUMS(salary)
 
     FILTERS ::
-        * ...
+        * Where school is vanderbilt
 
     DESCRIPTION ::
         ...
 
     ANSWER ::
-        ...
+        David Price
+		$245,553,888
 
 */
 
@@ -60,26 +61,7 @@ WHERE schoolname ILIKE 'Vander%'
 */
 
 /*
-WITH cte1 AS (
-	SELECT DISTINCT(namefirst), (namelast), schoolname
-	FROM people
-	INNER JOIN collegeplaying
-	ON people.playerid = collegeplaying.playerid
-	INNER JOIN schools
-	ON collegeplaying.schoolid = schools.schoolid
-	WHERE schoolname ILIKE 'Vander%'
-), 
-	cte2 AS (
-	SELECT namefirst, namelast, SUM(salary) AS total_earned
-	FROM salaries
-	INNER JOIN people 
-	ON salaries.playerid = people.playerid
-	GROUP BY namefirst, namelast
-)
-*/
-
-
-SELECT DISTINCT(namefirst), (namelast), schoolname, sum(salary) as salary
+SELECT DISTINCT(namefirst), (namelast), schoolname
 	FROM people
 	INNER JOIN collegeplaying
 	ON people.playerid = collegeplaying.playerid
@@ -90,3 +72,16 @@ SELECT DISTINCT(namefirst), (namelast), schoolname, sum(salary) as salary
 	WHERE schoolname ILIKE 'Vander%'
 	GROUP BY namefirst, namelast, schoolname
 	ORDER BY salary desc
+*/
+SELECT namefirst, namelast, schoolname, 
+	SUM(salary) AS totalearned
+FROM schools
+INNER JOIN collegeplaying
+ON schools.schoolid = collegeplaying.schoolid
+INNER JOIN people
+ON collegeplaying.playerid = people.playerid
+INNER JOIN salaries
+ON people.playerid = salaries.playerid
+WHERE schoolname ILIKE 'Vander%'
+GROUP BY namefirst, namelast, schoolname
+ORDER BY totalearned DESC
