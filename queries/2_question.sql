@@ -24,7 +24,17 @@
 
 */
 
-SELECT playerid, height
+
+SELECT namefirst, namelast, height, f.g, b.g
 FROM people
-where height is not null
-order by height 
+INNER JOIN fielding AS f
+ON people.playerid = f.playerid
+INNER JOIN batting AS b
+ON people.playerid = b.playerid
+INNER JOIN pitching AS p
+WHERE height IS NOT null
+
+
+
+
+
