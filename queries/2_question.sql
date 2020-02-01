@@ -20,21 +20,15 @@
         ...
 
     ANSWER ::
-        ...
+        Eddie Gaedel
+		43 for height
+		SLA -> St. Louis Browns (now the Cardinals)
 
 */
 
-
-SELECT namefirst, namelast, height, f.g, b.g
+SELECT DISTINCT(CONCAT(namefirst, ' ', namelast)) AS fullname, height, G_all, teamid, yearid
 FROM people
-INNER JOIN fielding AS f
-ON people.playerid = f.playerid
-INNER JOIN batting AS b
-ON people.playerid = b.playerid
-INNER JOIN pitching AS p
-WHERE height IS NOT null
-
-
-
-
-
+INNER JOIN appearances 
+ON people.playerid = appearances.playerid
+WHERE height IS NOT NULL
+ORDER BY height
