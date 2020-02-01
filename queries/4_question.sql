@@ -20,9 +20,9 @@
         ...
 
     ANSWER ::
-        "Outfield"	118320
-		"Battery"	458894
-		"Infield"	1199310
+       "Battery"	2575499
+		"Infield"	6101378
+		"Outfield"	2731506
 
 */
 
@@ -57,6 +57,24 @@ SELECT
 FROM fielding
 */
 
+SELECT SUM(po),
+	CASE WHEN 
+			pos = 'OF' THEN 'Outfield'
+		 WHEN 
+			pos = 'SS' 
+			OR pos = '1B'
+			OR pos = '2B' 
+			OR pos = '3B' THEN 'Infield'
+		 WHEN
+			pos = 'P' 
+			OR pos = 'C' THEN 'Battery'
+		END AS position
+FROM fielding
+GROUP BY position
+-- 	2575499	"Battery"
+--6101378	"Infield"
+--2731506	"Outfield"
+
 SELECT position, SUM(po) AS putouts
 FROM
 	(SELECT po,
@@ -71,6 +89,5 @@ FROM
 				pos = 'P' 
 				OR pos = 'C' THEN 'Battery'
 			END AS position
-	FROM fielding
-	GROUP BY position, po) AS sub
+	FROM fielding) AS sub
 GROUP BY position 
