@@ -29,4 +29,4 @@ SELECT ROUND(AVG(SO),2) AS strikeouts, ROUND(AVG(HR),2) AS homeruns, (yearid/10)
 FROM batting
 WHERE (yearid/10) * 10 >= 1920
 GROUP BY decade
-ORDER BY decade
+ORDER BY decade 
