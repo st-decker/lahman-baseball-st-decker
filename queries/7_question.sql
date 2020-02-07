@@ -54,10 +54,18 @@ SELECT
 	ROUND(AVG(CASE 
 		WHEN 
 			yearid BETWEEN 1970 AND 2016
-			AND wswin IS NOT NULL
+			--AND wswin IS NOT NULL
 			AND wswin ='Y' THEN 1
 		WHEN yearid BETWEEN 1970 AND 2016
-			 AND wswin IS NOT NULL
+			 --AND wswin IS NOT NULL
 			  AND wswin = 'N'
 			 THEN 0 END), 2) * 100 AS percentage 
 FROM teams
+
+SELECT DISTINCT(yearid), W, G, teamid
+FROM teams
+WHERE yearid BETWEEN 1970 AND 2016
+	AND wswin IS NOT NULL
+	AND wswin ='Y'
+	AND g > 110
+ORDER BY W 
