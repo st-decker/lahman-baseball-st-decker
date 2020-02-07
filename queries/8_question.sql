@@ -29,7 +29,7 @@
 		"Chicago Cubs"			"Wrigley Field"				39906.42
 
 */
-
+/*
 SELECT DISTINCT park_name, name, SUM(homegames.attendance)/SUM(homegames.games) AS a_per_g
 FROM homegames
 INNER JOIN parks
@@ -41,6 +41,8 @@ WHERE year = 2016
 GROUP BY park_name, name
 ORDER BY a_per_g DESC
 LIMIT 10
+*/
+
 
 WITH atten AS (
 	SELECT year, team, park, ROUND(attendance/games::numeric, 2) AS perc
