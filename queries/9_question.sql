@@ -67,6 +67,8 @@ WITH nl AS (
 SELECT * FROM peeps
 */
 
+
+
 --Try with a self join
 --Looks nicer than the CTE method, got managers with both
 /*
@@ -84,6 +86,8 @@ ORDER BY am1.playerid
 */
 
 
+
+/*
 SELECT p.namefirst, p.namelast, subquery.*, name
 FROM
 --Get managers who won in both leagues
@@ -115,4 +119,36 @@ LEFT JOIN teams AS t
 --use team and yearid to eliminate duplicates
 ON m.teamid = t.teamid
 	AND m.yearid = t.yearid
+ORDER BY namefirst
+*/
+
+--Done as a CTE with help from Taylor
+
+WITH tsn_managers AS (
+	SELECT playerid, yearid, lgid
+	FROM awardsmanagers
+	WHERE awardid = 'TSN Manager of the Year'
+	AND lgid IN ('NL', 'AL')
+	
+), man_by_year AS (
+	SELECT DISTINCT tsn.playerid, tsn.yearid
+	FROM tsn_managers AS tsn
+	JOIN tsn_managers AS tsn2
+	ON tsn.playerid = tsn2.playerid
+	AND tsn.lgid <> tsn2.lgid
+)
+SELECT p.namefirst, p.namelast, t.name, m.yearid
+FROM man_by_year AS mby
+
+INNER JOIN managers AS m
+ON mby.playerid = m.playerid
+	AND mby.yearid = m.yearid
+	
+INNER JOIN people AS p
+ON mby.playerid = p.playerid
+
+INNER JOIN teams AS t 
+ON mby.yearid = t.yearid
+AND m.teamid = t.teamid
+
 ORDER BY namefirst

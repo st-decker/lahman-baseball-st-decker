@@ -20,9 +20,9 @@
         ...
 
     ANSWER ::
-       "Battery"	2575499
-		"Infield"	6101378
-		"Outfield"	2731506
+      	"Battery"	41424
+		"Infield"	58934
+		"Outfield"	29560
 
 */
 
@@ -89,5 +89,6 @@ FROM
 				pos = 'P' 
 				OR pos = 'C' THEN 'Battery'
 			END AS position
-	FROM fielding) AS sub
+	FROM fielding
+	WHERE yearid = 2016) AS sub
 GROUP BY position 
