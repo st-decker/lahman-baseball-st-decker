@@ -25,7 +25,12 @@
 */
 
 --Group by decade
-SELECT ROUND(AVG(SO),2) AS strikeouts, ROUND(AVG(HR),2) AS homeruns, (yearid/10) * 10 AS decade
+SELECT 
+	--ROUND(SUM(so)/SUM(g)::NUMERIC, 2) AS avg_per_game,
+	ROUND(AVG(SO),2) AS strikeouts,
+	--ROUND(SUM(hr)/SUM(g)::NUMERIC, 2) AS avg_per_game,
+	ROUND(AVG(HR),2) AS homeruns, 
+	(yearid/10) * 10 AS decade
 FROM batting
 WHERE (yearid/10) * 10 >= 1920
 GROUP BY decade

@@ -22,11 +22,17 @@
         ...
 
     ANSWER ::
-        "Los Angeles Dodgers"	"Dodger Stadium"			45719.90
-		"St. Louis Cardinals"	"Busch Stadium III"			42524.57
-		"Toronto Blue Jays"		"Rogers Centre"				41877.77
-		"San Francisco Giants"	"AT&T Park"					41546.37
-		"Chicago Cubs"			"Wrigley Field"				39906.42
+        "Los Angeles Dodgers"	"Dodger Stadium"						45719.90
+		"St. Louis Cardinals"	"Busch Stadium III"						42524.57
+		"Toronto Blue Jays"		"Rogers Centre"							41877.77
+		"San Francisco Giants"	"AT&T Park"								41546.37
+		"Chicago Cubs"			"Wrigley Field"							39906.42
+		"Tampa Bay Rays"		"Tropicana Field"						15878.56
+		"Oakland Athletics"		"Oakland-Alameda County Coliseum"		18784.02
+		"Cleveland Indians"		"Progressive Field"						19650.21
+		"Miami Marlins"			"Marlins Park"							21405.21
+		"Chicago White Sox"		"U.S. Cellular Field"					21559.17
+		
 
 */
 /*
@@ -43,15 +49,17 @@ ORDER BY a_per_g DESC
 LIMIT 10
 */
 
-
+--How to get both bottom and top in one query
 WITH atten AS (
 	SELECT year, team, park, ROUND(attendance/games::numeric, 2) AS perc
 	FROM homegames
 	WHERE year = 2016
 	AND  games > 10
+	
 ),  parks AS (
 	SELECT park, park_name
 	FROM parks
+	
 ),  team_info AS (
 	SELECT name, teamid, yearid
 	FROM teams
@@ -63,4 +71,6 @@ INNER JOIN parks
 ON atten.park = parks.park
 INNER JOIN team_info
 ON atten.team = team_info.teamid AND atten.year = team_info.yearid
-ORDER BY perc DESC
+ORDER BY perc 
+
+--Try with union all, cte method to get 10 together

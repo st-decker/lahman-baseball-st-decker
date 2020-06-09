@@ -48,6 +48,7 @@ WHERE yearid BETWEEN 1970 AND 2016
 ORDER BY W 
 */
 
+
 --Question 3 answer
 /*
 SELECT
@@ -140,17 +141,20 @@ WITH wswins AS
 	SELECT DISTINCT yearid, w
 	FROM teams
 	WHERE wswin = 'Y'
+	AND  yearid BETWEEN 1970 AND 2016
 ), 
 
 	maxwins AS (
 		SELECT MAX(w), yearid
 		FROM teams
+		WHERE yearid BETWEEN 1970 AND 2016
+		--AND yearid <> 2013 AND yearid <> 2007
 		GROUP BY yearid
 )
 
 SELECT ROUND((SUM(
 	CASE WHEN w = MAX THEN 1
-	ELSE 0 END)/COUNT(*)::numeric),2) * 100 AS percentage
+	ELSE 0 END)/COUNT(*)::numeric) * 100, 2) AS percentage
 FROM wswins 
 INNER JOIN maxwins
 ON wswins.yearid = maxwins.yearid

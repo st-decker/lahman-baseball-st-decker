@@ -74,7 +74,8 @@ SELECT DISTINCT(namefirst), (namelast), schoolname
 	ORDER BY salary desc
 */
 SELECT namefirst, namelast, schoolname, 
-	SUM(salary) AS totalearned
+	--not dividing by three sums salary for every year he appears in the collegeplaying table
+	SUM(salary)::numeric::money/3 AS totalearned
 FROM schools
 INNER JOIN collegeplaying
 ON schools.schoolid = collegeplaying.schoolid
@@ -85,3 +86,10 @@ ON people.playerid = salaries.playerid
 WHERE schoolname ILIKE 'Vander%'
 GROUP BY namefirst, namelast, schoolname
 ORDER BY totalearned DESC
+
+With vandy AS (
+select distinct platerid
+from collegeplaying
+where schoolid = (
+select distinct schoolid from schools where schoolname = 'Vanderbilt University'
+))
